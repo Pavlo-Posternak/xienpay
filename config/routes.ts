@@ -58,55 +58,140 @@ export default [
     component: './AdminUserList',
     access: 'canAdmin',
   },
-  {
-    name: 'list.merchant-list',
-    icon: 'CreditCardOutlined',
-    path: '/merchant-list',
-    component: './MerchantList',
-    access: 'canMerchantList',
-  },
-  {
-    name: 'list.agent-list',
-    icon: 'team',
-    path: '/agent-list',
-    component: './AgentList',
-    access: 'canAgentList',
-  },
-  {
-    name: 'list.bank-acct-list',
-    icon: 'BankOutlined',
-    path: '/bank-acct-list',
-    component: './BankAcctsList',
-    access: 'canBankAcctList',
-  },
-  {
-    name: 'list.payin-list',
-    icon: 'DollarOutlined',
-    path: '/payin-list',
-    component: './PayinList',
-    access: 'canPayinList',
-  },
-  {
-    name: 'list.payout-list',
-    icon: 'SendOutlined',
-    path: '/payout-list',
-    component: './PayoutList',
-    access: 'canPayoutList',
-  },
-  {
-    name: 'list.settlement-list',
-    icon: 'CalculatorOutlined',
-    path: '/settlement-list',
-    component: './SettlementList',
-    access: 'canSettlementList',
-  },
-  {
-    path: '/',
-    redirect: '/welcome',
-  },
-  {
-    path: '*',
-    layout: false,
-    component: './404',
-  },
+  // {
+  //   name: 'list.merchant-list',
+  //   icon: 'CreditCardOutlined',
+  //   path: '/merchant-list',
+  //   component: './MerchantList',
+  //   access: 'canMerchantList',
+  // },
+  // {
+  //   name: 'list.agent-list',
+  //   icon: 'team',
+  //   path: '/agent-list',
+  //   component: './AgentList',
+  //   access: 'canAgentList',
+  // },
+  // {
+  //   name: 'list.bank-acct-list',
+  //   icon: 'BankOutlined',
+  //   path: '/bank-acct-list',
+  //   component: './BankAcctsList',
+  //   access: 'canBankAcctList',
+  // },
+  // {
+  //   name: 'list.payin-list',
+  //   icon: 'DollarOutlined',
+  //   path: '/payin-list',
+  //   component: './PayinList',
+  //   access: 'canPayinList',
+  // },
+  // {
+  //   name: 'list.payout-list',
+  //   icon: 'SendOutlined',
+  //   path: '/payout-list',
+  //   component: './PayoutList',
+  //   access: 'canPayoutList',
+  // },
+  // {
+  //   name: 'list.settlement-list',
+  //   icon: 'CalculatorOutlined',
+  //   path: '/settlement-list',
+  //   component: './SettlementList',
+  //   access: 'canSettlementList',
+  // },
+  // {
+  //   path: '/',
+  //   redirect: '/welcome',
+  // },
+  // {
+  //   path: '*',
+  //   layout: false,
+  //   component: './404',
+  // },
+
+  // {
+  //   path: '/deposit',
+  //   name: 'Deposit',
+  //   icon: 'PieChartOutlined',
+  //   component: './Deposit',
+  //   routes: [
+  //     {
+  //       path: '/completed',
+  //       name: 'Completed',
+  //       component: './Completed',
+  //     },
+  //     {
+  //       path: '/dropped',
+  //       name: 'Dropped',
+  //       component: './Dropped',
+  //     },
+  //   ]
+  // },
+  // {
+  //   path: '/withdrawals',
+  //   name: 'Withdrawals',
+  //   icon: 'PieChartOutlined',
+  //   component: './Withdrawals',
+  // },
+  // {
+  //   path: '/settlements',
+  //   name: 'Settlements',
+  //   icon: 'PieChartOutlined',
+  //   component: './Settlements',
+  //   routes: [
+  //     {
+  //       path: '/transactions',
+  //       name: 'Transactions',
+  //       component: './Transactions',
+  //     },
+  //     {
+  //       path: '/accounts',
+  //       name: 'Accounts',
+  //       component: './Accounts',
+  //     },
+  //   ]
+  // },
+  // {
+  //   path: '/chargebacks',
+  //   name: 'Chargebacks',
+  //   icon: 'PieChartOutlined',
+  //   component: './Chargebacks',
+  // },
+  // {
+  //   path: '/merchants',
+  //   name: 'Merchants',
+  //   icon: 'PieChartOutlined',
+  //   component: './Merchants',
+  // },
+  // {
+  //   path: '/bankAccounts',
+  //   name: 'Bank Accounts',
+  //   icon: 'PieChartOutlined',
+  //   component: './BankAccounts',
+  // },
+  // {
+  //   path: '/users',
+  //   name: 'Users',
+  //   icon: 'PieChartOutlined',
+  //   component: './Users',
+  //   routes: [
+  //     {
+  //       path: '/roles',
+  //       name: 'Roles',
+  //       component: './Roles'
+  //     },
+  //     {
+  //       path: '/agents',
+  //       name: 'Agents',
+  //       component: './Agents'
+  //     },
+  //   ]
+  // },
+  // {
+  //   path: '/reports',
+  //   name: 'Reports',
+  //   icon: 'PieChartOutlined',
+  //   component: './Reports',
+  // },
 ];
