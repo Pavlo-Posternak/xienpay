@@ -1,3 +1,6 @@
+import BalanceStats from '@/components/BalanceStats';
+import Coins from '@/components/CoinStats/Coins';
+import TrackingChart from '@/components/TrackingChart';
 import {
   downloadPayins,
   fetchMerchantAnalytics,
@@ -35,6 +38,29 @@ function asINR(n: number): string {
   if (!n) return '₹ --';
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'INR' }).format(n);
 }
+
+const coins = [
+  {
+    icon: <img src="/assets/icons/bitcoin.svg" alt=""/>,
+    title: "Deposit (345)",
+    description: "1617435737"
+  },
+  {
+    icon: <img src="/assets/icons/bitcoin.svg" alt=""/>,
+    title: "Deposit %",
+    description: "16174"
+  },
+  {
+    icon: <img src="/assets/icons/bitcoin.svg" alt=""/>,
+    title: "Withdrawals (52)",
+    description: "1617435737"
+  },
+  {
+    icon: <img src="/assets/icons/bitcoin.svg" alt=""/>,
+    title: "Withdrawals %",
+    description: "16174"
+  },
+]
 
 const Welcome = () => {
   /* Preload merchants list */
@@ -139,7 +165,29 @@ const Welcome = () => {
       </Row>
 
       <Row gutter={[16, 16]}>
-        {/* Left Half */}
+        <Col span = {14}>
+          <Coins data = {coins}/>
+        </Col>
+        <Col span = {10}>
+          <BalanceStats main ={{name: "Net Balance", value: "73846804"}} sub={[
+            {name: "Deposits", value: "12345667"},
+            {name: "Withdrawls", value: "1243189"},
+            {name: "Commission", value: "8372"},
+            {name: "Outstanding", value: "835248949"},
+          ]}/>
+        </Col>
+      </Row>
+        <div style={{
+          margin:"20px 0",
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px"
+        }}>
+          <TrackingChart />
+          <TrackingChart />
+        </div>
+      {/* <Row gutter={[16, 16]}>
+        // Left Half
         <Col span={12}>
           <StatisticCard.Group direction="row" boxShadow>
             <StatisticCard
@@ -193,7 +241,7 @@ const Welcome = () => {
           />
         </Col>
 
-        {/* Right Half */}
+        // Right Half
         <Col span={12}>
           <ProCard boxShadow>
             <ProForm
@@ -259,7 +307,7 @@ const Welcome = () => {
             chart={<Column height={400} {...dailyDataConfig} />}
           />
         </Col>
-      </Row>
+      </Row> */}
     </PageContainer>
   );
 };
