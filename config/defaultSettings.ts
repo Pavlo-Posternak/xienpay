@@ -38,12 +38,12 @@ const Settings: ProLayoutProps & {
     colorTextAppListIconHover: '#fff',
     colorTextAppListIcon: '#313131',
     sider: {
-      colorMenuBackground: 'white',
-      colorMenuItemDivider: '#dfdfdf',
-      colorBgMenuItemHover: '#f6f6f6',
-      colorTextMenu: 'black',
-      colorTextMenuSelected: 'black',
-      colorTextMenuActive: 'black',
+      colorMenuBackground: '#495365',
+      colorMenuItemDivider: '#313131',
+      colorBgMenuItemHover: '#e1e1e149',
+      colorTextMenu: 'white',
+      colorTextMenuSelected: 'white',
+      colorTextMenuActive: 'white',
     },
   },
 };
