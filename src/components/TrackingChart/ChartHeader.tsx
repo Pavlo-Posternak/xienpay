@@ -5,21 +5,21 @@ const ChartHeader: React.FC = () => {
       <div style={{
         display: "flex",
         alignItems: "center",
-        padding: "16px 32px 24px",
+        padding: "12px 40px",
         justifyContent: "space-between"
       }}>
         <span style={{fontSize: "28px", fontWeight: "800"}}>DEPOSITS</span>
         <div>
-            <p style={{color:"black", fontSize: "20px"}}>48.550</p>
-            <p style={{fontSize: "12px"}}>LAST HOUR</p>
+            <span style={{color:"black", fontSize: "20px"}}>48.550</span>
+            <span style={{fontSize: "12px", display: "block", marginTop: "8px"}}>LAST HOUR</span>
         </div>
         <div>
-            <p style={{color:"black", fontSize: "20px"}}>653</p>
-            <p style={{fontSize: "12px"}}>Count</p>
+            <span style={{color:"black", fontSize: "20px"}}>653</span>
+            <span style={{fontSize: "12px", display: "block", marginTop: "8px"}}>Count</span>
         </div>
         <div>
-            <p style={{color:"red", fontSize: "20px"}}>$48.550</p>
-            <p style={{fontSize: "12px"}}>24H Change</p>
+            <span style={{color:"red", fontSize: "20px"}}>$48.550</span>
+            <span style={{fontSize: "12px", display: "block", marginTop: "8px"}}>24H Change</span>
         </div>
       </div>
     );

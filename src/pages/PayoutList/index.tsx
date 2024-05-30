@@ -449,11 +449,7 @@ const PayoutList: React.FC = () => {
         }
         request={payout}
         columns={columns}
-        rowSelection={{
-          onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
-          },
-        }}
+        rowSelection={false}
       />
       {selectedRowsState?.length > 0 && (
         <FooterToolbar

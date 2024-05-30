@@ -78,7 +78,8 @@ const TrackingChart: React.FC = () => {
         <div style={{
             display: "flex",
             justifyContent: "space-between",
-            gap: "24px"
+            gap: "24px",
+            marginTop: "20px",
         }}>
             <div style={{
                 width: "calc(100% - 76px)",

@@ -6,8 +6,8 @@ const BalanceStats: React.FC = ({main, sub}) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "start",
-        gap: "24px",
-        padding: "12px 24px",
+        gap: "16px",
+        padding: "16px 24px",
         borderRadius: "12px",
         background: "white",
         boxShadow: "3px 3px 5px #1111",
@@ -16,8 +16,7 @@ const BalanceStats: React.FC = ({main, sub}) => {
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             gap: "8px",
-            fontSize: "16px",
-            padding: "0 24px"
+            fontSize: "16px"
         }}>
             {sub.map(item => {
                 return (

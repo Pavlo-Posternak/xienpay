@@ -35,6 +35,7 @@ import { Button, Drawer, Modal, Select, Tag, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
+import SimpleSearchForm from '../../components/SimpleSearchForm';
 
 const SearchUserInput: React.FC<{
   merchantCode: string;
@@ -456,14 +457,13 @@ const PayinList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<API.PayinListItem, API.PageParams>
-        headerTitle={intl.formatMessage({
-          id: 'pages.payinTable.title',
-          defaultMessage: 'Payins List',
-        })}
+        headerTitle={
+          <SimpleSearchForm />
+        }
         scroll={{ x: 'max-content' }}
         actionRef={actionRef}
         rowKey="key"
-        search={{
+        search={ false ?? {
           labelWidth: 120,
         }}
         toolBarRender={() =>
@@ -487,11 +487,7 @@ const PayinList: React.FC = () => {
         }
         request={payin}
         columns={columns}
-        rowSelection={{
-          onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
-          },
-        }}
+        rowSelection={false}
       />
       {selectedRowsState?.length > 0 && (
         <FooterToolbar
