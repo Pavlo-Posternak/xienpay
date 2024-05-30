@@ -51,7 +51,7 @@ export default [
   //   path: '/list',
   //   component: './TableList',
   // },
-  
+
   {
     path: '/',
     redirect: '/welcome',
@@ -61,24 +61,30 @@ export default [
     layout: false,
     component: './404',
   },
-
   {
     name: 'Deposit',
     key:'deposit',
     icon: 'DollarOutlined',
     routes: [
       {
-        name: 'Completed',//'list.payin-list',
+        name: 'In Progress', //'list.payin-list',
+        key:'in-progress',
+        path: '/payin-list/in-progress',
+        component: './PayinList/InProgress',
+        access: 'canPayinList',
+      },
+      {
+        name: 'Completed', //'list.payin-list',
         key:'completed',
-        path: '/payin-list',
-        component: './PayinList',
+        path: '/payin-list/completed',
+        component: './PayinList/Completed',
         access: 'canPayinList',
       },
       {
         name: 'Dropped',
         key:'dropped',
-        path: '/payin-list',
-        component: './PayinList',
+        path: '/payin-list/dropped',
+        component: './PayinList/Dropped',
         access: 'canPayinList',
       },
     ]
