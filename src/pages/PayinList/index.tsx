@@ -463,7 +463,7 @@ const PayinList: React.FC = () => {
         scroll={{ x: 'max-content' }}
         actionRef={actionRef}
         rowKey="key"
-        search={ false ?? {
+        search={{
           labelWidth: 120,
         }}
         toolBarRender={() =>
