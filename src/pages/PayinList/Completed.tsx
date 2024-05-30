@@ -468,7 +468,7 @@ const PayinList: React.FC = () => {
           labelWidth: 120,
         }}
         toolBarRender={() =>
-          access.canPayinLinkCreate
+          access.canPayinLinkCreate && false
             ? [
                 <Button
                   type="primary"

@@ -87,14 +87,28 @@ export default [
         component: './PayinList/Dropped',
         access: 'canPayinList',
       },
-    ]
+    ],
   },
   {
-    name: 'Withdrawals',//'list.payout-list',
+    name: 'Withdrawals', //'list.payout-list',
+    key:'withdrawals',
     icon: 'SendOutlined',
-    path: '/payout-list',
-    component: './PayoutList',
-    access: 'canPayoutList',
+    routes: [
+      {
+        name: 'In Progress',
+        key:'in-progress',
+        path: '/payout-list/in-progress',
+        component: './PayoutList/InProgress',
+        access: 'canPayoutList',
+      },
+      {
+        name: 'Completed',
+        key:'completed',
+        path: '/payout-list/completed',
+        component: './PayoutList/Completed',
+        access: 'canPayoutList',
+      }
+    ],
   },
   {
     name: 'Settlements',
