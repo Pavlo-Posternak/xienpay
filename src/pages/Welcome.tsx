@@ -41,22 +41,22 @@ function asINR(n: number): string {
 
 const coins = [
   {
-    icon: <img src="/assets/icons/bitcoin.svg" alt=""/>,
+    icon: <img src="/assets/icons/deposit.jpg" width="52" alt=""/>,
     title: "Deposit (345)",
     description: "1617435737"
   },
   {
-    icon: <img src="/assets/icons/bitcoin.svg" alt=""/>,
+    icon: <img src="/assets/icons/commission.jpg" width="52" alt=""/>,
     title: "Deposit %",
     description: "16174"
   },
   {
-    icon: <img src="/assets/icons/bitcoin.svg" alt=""/>,
+    icon: <img src="/assets/icons/withdraw.jpg" width="52" alt=""/>,
     title: "Withdrawals (52)",
     description: "1617435737"
   },
   {
-    icon: <img src="/assets/icons/bitcoin.svg" alt=""/>,
+    icon: <img src="/assets/icons/commission.jpg" width="52" alt=""/>,
     title: "Withdrawals %",
     description: "16174"
   },
