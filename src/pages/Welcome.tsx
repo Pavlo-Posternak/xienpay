@@ -42,42 +42,29 @@ function asINR(n: number): string {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'INR' }).format(n);
 }
 
-const option = [
-  {
-    title: "12H",
-    value: 1000 * 60 * 60 * 12,
-  },
-  {
-    title: "7D",
-    value: 1000 * 60 * 60 * 24 * 7,
-  },
-  {
-    title: "15D",
-    value: 1000 * 60 * 60 * 24 * 14,
-  },
-]
+const option = [ "12H", "7D", "15D"]
 
 const Welcome = () => {
   /* Preload merchants list */
   const [merchantsList, setMerchantsList] = useState<API.LinkedMerchantListItem[]>([]);
   const [analytics, setAnalytics] = useState<API.AnalyticsData>();
-  const [deposit, setDeposit] = useState(1000 * 60 * 60 * 24 * 7);
+  const [deposit, setDeposit] = useState("7D");
   const [depositData, setDepositData] = useState({payins: []});
-  const [withdraw, setWithdraw] = useState(1000 * 60 * 60 * 24 * 7)
+  const [withdraw, setWithdraw] = useState("7D")
   const [withdrawData, setWithdrawData] = useState({payouts: []});
   const [snapshot, setSnapshot] = useState();
 
   const [formValues, setFormValues] = useState({
     merchant_code: '',
-    time_period: [Date.now() - 1000 * 60 * 60 * 24 * 7, Date.now()],
-    time_period2: [Date.now() - 1000 * 60 * 60 * 24 * 7, Date.now()]
+    time_period: "7d",
+    time_period2: "7d",
   });
 
   const coins = [
     {
       icon: <img src="/assets/icons/deposit.jpg" width="52" alt=""/>,
       title: `Deposit (${snapshot?.lifetime?.deposits?.count ?? 0})`,
-      description: `${snapshot?.lifetime?.deposits?.amount ?? 0}`
+      description: `${asINR(snapshot?.lifetime?.deposits?.amount ?? 0)}`
     },
     {
       icon: <img src="/assets/icons/commission.jpg" width="52" alt=""/>,
@@ -87,7 +74,7 @@ const Welcome = () => {
     {
       icon: <img src="/assets/icons/withdraw.jpg" width="52" alt=""/>,
       title: `Withdrawals (${snapshot?.lifetime?.withdrawals?.count ?? 0})`,
-      description: `${snapshot?.lifetime?.withdrawals?.amount ?? 0}`
+      description: `${asINR(snapshot?.lifetime?.withdrawals?.amount ?? 0)}`
     },
     {
       icon: <img src="/assets/icons/commission.jpg" width="52" alt=""/>,
@@ -123,14 +110,14 @@ const Welcome = () => {
   useEffect(() => {
     setFormValues({
       ...formValues,
-      time_period: [Date.now() - deposit, Date.now()]
+      time_period: deposit?.toLowerCase(),
     })
   }, [deposit]);
 
   useEffect(() => {
     setFormValues({
       ...formValues,
-      time_period2: [Date.now() - withdraw, Date.now()]
+      time_period2: withdraw?.toLowerCase(),
     })
   }, [withdraw]);
 
@@ -143,29 +130,18 @@ const Welcome = () => {
       //   await downloadPayins(merchant_code, dateFromMs(from_date), dateFromMs(to_date));
       // } else 
       if (action === 'submit') {
-        const [from_date, to_date] = time_period;
-        if (daysBetween(from_date, to_date) >= 15) {
-          message.error('Please select a date range within 15 days');
-          return;
-        }
         
         const payins = await fetchMerchantAnalyticsPayins(
           merchant_code,
-          dateFromMs(from_date),
-          dateFromMs(to_date),
+          time_period,
         );
         console.log("-----------payins-------------", payins)
         setDepositData(payins);
       } else if (action === 'submit2') {
-        const [from_date, to_date] = time_period2;
-        if (daysBetween(from_date, to_date) >= 15) {
-          message.error('Please select a date range within 15 days');
-          return;
-        }
+        
         const payouts = await fetchMerchantAnalyticsPayouts(
           merchant_code,
-          dateFromMs(from_date),
-          dateFromMs(to_date),
+          time_period2,
         );
         console.log("-----------payouts-------------", payouts)
         setWithdrawData(payouts);
@@ -173,8 +149,7 @@ const Welcome = () => {
 
         const snap = await fetchMerchantAnalyticsSnapshot(
           merchant_code,
-          dateFromMs(Date.now() - 3600000 * 24 * 14),
-          dateFromMs(Date.now())
+          "15d"
         )
         console.log("---------snapshot----------", snap)
         setSnapshot(snap);
@@ -213,11 +188,11 @@ const Welcome = () => {
           <Coins data = {coins}/>
         </Col>
         <Col span = {10}>
-          <BalanceStats main ={{name: "Net Balance", value: `${snapshot?.lifetime?.balance ?? 0}`}} sub={[
-            {name: "Deposits", value: `${snapshot?.lifetime?.deposits?.amount ?? 0}`},
-            {name: "Withdrawls", value: `${snapshot?.lifetime?.withdrawals?.amount ?? 0}`},
-            {name: "Commission", value: `${parseFloat(snapshot?.lifetime?.deposits?.commission ?? 0) + parseFloat(snapshot?.lifetime?.withdrawals?.commission ?? 0)}`},
-            {name: "Outstanding", value: `${snapshot?.lifetime?.settlements?.amount ?? 0}`},
+          <BalanceStats main ={{name: "Net Balance", value: `${asINR(snapshot?.lifetime?.balance ?? 0)}`}} sub={[
+            {name: "Deposits", value: `${asINR(snapshot?.lifetime?.deposits?.amount ?? 0)}`},
+            {name: "Withdrawls", value: `${asINR(snapshot?.lifetime?.withdrawals?.amount ?? 0)}`},
+            {name: "Commission", value: `${asINR(parseFloat(snapshot?.lifetime?.deposits?.commission ?? 0) + parseFloat(snapshot?.lifetime?.withdrawals?.commission ?? 0))}`},
+            {name: "Outstanding", value: `${asINR(snapshot?.lifetime?.settlements?.amount ?? 0)}`},
           ]}/>
 
         </Col>

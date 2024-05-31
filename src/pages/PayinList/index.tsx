@@ -458,7 +458,7 @@ const PayinList: React.FC = () => {
     <PageContainer>
       <ProTable<API.PayinListItem, API.PageParams>
         headerTitle={
-          <SimpleSearchForm />
+          "Deposit"
         }
         scroll={{ x: 'max-content' }}
         actionRef={actionRef}

@@ -459,12 +459,12 @@ const PayinList: React.FC = () => {
     <PageContainer>
       <ProTable<API.PayinListItem, API.PageParams>
         headerTitle={
-          <SimpleSearchForm />
+          "Completed"
         }
         scroll={{ x: 'max-content' }}
         actionRef={actionRef}
         rowKey="key"
-        search={ false ?? {
+        search={{
           labelWidth: 120,
         }}
         toolBarRender={() =>
