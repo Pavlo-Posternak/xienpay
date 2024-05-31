@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ChartHeader: React.FC = () => {
+const ChartHeader: React.FC = ({lastHour, lastDay}) => {
     return (
       <div style={{
         display: "flex",
@@ -10,15 +10,15 @@ const ChartHeader: React.FC = () => {
       }}>
         <span style={{fontSize: "28px", fontWeight: "800"}}>DEPOSITS</span>
         <div>
-            <span style={{color:"black", fontSize: "20px"}}>48.550</span>
+            <span style={{color:"black", fontSize: "20px"}}>${lastHour.deposit_amount ?? 0}</span>
             <span style={{fontSize: "12px", display: "block", marginTop: "8px"}}>LAST HOUR</span>
         </div>
         <div>
-            <span style={{color:"black", fontSize: "20px"}}>653</span>
+            <span style={{color:"black", fontSize: "20px"}}>{lastHour.deposit_count ?? 0}</span>
             <span style={{fontSize: "12px", display: "block", marginTop: "8px"}}>Count</span>
         </div>
         <div>
-            <span style={{color:"red", fontSize: "20px"}}>$48.550</span>
+            <span style={{color:"red", fontSize: "20px"}}>${lastDay.deposit_amount ?? 0}</span>
             <span style={{fontSize: "12px", display: "block", marginTop: "8px"}}>24H Change</span>
         </div>
       </div>

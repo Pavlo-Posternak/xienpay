@@ -153,7 +153,7 @@ const Welcome = () => {
 
   const [formValues, setFormValues] = useState({
     merchant_code: '',
-    time_period: [Date.now() - 1000 * 60 * 60 * 15, Date.now()],
+    time_period: [Date.now() - 1000 * 60 * 60 * 24, Date.now()],
   });
 
   useEffect(() => {
@@ -171,6 +171,10 @@ const Welcome = () => {
     handleFormSubmit("submit");
   }, [formValues])
 
+  useEffect(() => {
+    handleDateChange([Date.now() - deposit, Date.now()])
+  }, [deposit]);
+
   const handleFormSubmit = async (action) => {
     console.log('Form values:', formValues);
     const { merchant_code, time_period } = formValues;
@@ -185,13 +189,11 @@ const Welcome = () => {
       if (action === 'download') {
         await downloadPayins(merchant_code, dateFromMs(from_date), dateFromMs(to_date));
       } else if (action === 'submit') {
-        console.log("analytics", action)
         const data = await fetchMerchantAnalytics(
           merchant_code,
           dateFromMs(from_date),
           dateFromMs(to_date),
         );
-        console.log("analytics", data)
         setAnalytics(data);
       }
     } catch (error) {
@@ -275,7 +277,19 @@ const Welcome = () => {
           flexDirection: "column",
           gap: "20px"
         }}>
-          <TrackingChart graphData={graphData} duration={deposit} setDuration={setDeposit} options={option} />
+          <TrackingChart graphData={deposit < 1000 * 3600 * 25 ? lastDay.histogram.map(item => {
+            return {
+              name: item.hour_ist,
+              channel1: item.amount,
+              channel2: 0
+            }
+          }) : lastWeek.histogram.map(item => {
+            return {
+              name: item.day_ist,
+              channel1: item.amount,
+              channel2: 0
+            }
+          })} lastHour={lastHour} lastDay={lastDay} duration={deposit} setDuration={setDeposit} options={option} />
           {/* <TrackingChart /> */}
         </div>
       {/* <Row gutter={[16, 16]}>
