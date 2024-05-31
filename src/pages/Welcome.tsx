@@ -209,7 +209,7 @@ const Welcome = () => {
               channel1: item.amount,
               channel2: 0
             }
-          })} title={`DEPOSIT`} amount={depositData.amount} count={depositData.count} duration={deposit} setDuration={setDeposit} options={option} />
+          })} title={`DEPOSIT`} amount={asINR(depositData.amount)} count={depositData.count} duration={deposit} setDuration={setDeposit} options={option} />
           
           <TrackingChart graphData={withdrawData.payouts.map(item => {
             return {
@@ -217,7 +217,7 @@ const Welcome = () => {
               channel1: item.amount,
               channel2: 0
             }
-          })} title={`WITHDRAW`} amount={withdrawData.amount} count={withdrawData.count} duration={withdraw} setDuration={setWithdraw} options={option} />
+          })} title={`WITHDRAW`} amount={asINR(withdrawData.amount)} count={withdrawData.count} duration={withdraw} setDuration={setWithdraw} options={option} />
         </div>
     </PageContainer>
   );
