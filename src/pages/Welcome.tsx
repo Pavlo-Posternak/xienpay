@@ -69,7 +69,7 @@ const Welcome = () => {
     {
       icon: <img src="/assets/icons/commission.jpg" width="52" alt=""/>,
       title: "Deposit %",
-      description:  `${snapshot?.lifetime?.deposits?.commission ?? 0}`
+      description:  `${asINR(snapshot?.lifetime?.deposits?.commission ?? 0)}`
     },
     {
       icon: <img src="/assets/icons/withdraw.jpg" width="52" alt=""/>,
@@ -79,7 +79,7 @@ const Welcome = () => {
     {
       icon: <img src="/assets/icons/commission.jpg" width="52" alt=""/>,
       title: "Withdrawals %",
-      description: `${snapshot?.lifetime?.withdrawals?.commission ?? 0}`
+      description: `${asINR(snapshot?.lifetime?.withdrawals?.commission ?? 0)}`
     },
   ]
 
