@@ -216,7 +216,7 @@ const Welcome = () => {
           <BalanceStats main ={{name: "Net Balance", value: `${snapshot?.lifetime?.balance ?? 0}`}} sub={[
             {name: "Deposits", value: `${snapshot?.lifetime?.deposits?.amount ?? 0}`},
             {name: "Withdrawls", value: `${snapshot?.lifetime?.withdrawals?.amount ?? 0}`},
-            {name: "Commission", value: `${snapshot?.lifetime?.deposits?.commission ?? 0 + snapshot?.lifetime?.withdrawals?.commission ?? 0}`},
+            {name: "Commission", value: `${parseFloat(snapshot?.lifetime?.deposits?.commission ?? 0) + parseFloat(snapshot?.lifetime?.withdrawals?.commission ?? 0)}`},
             {name: "Outstanding", value: `${snapshot?.lifetime?.settlements?.amount ?? 0}`},
           ]}/>
 
