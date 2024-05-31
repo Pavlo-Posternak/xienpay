@@ -77,7 +77,7 @@ const Reports: React.FC = () => {
           </ProForm>
         </Row>
         <Row gutter={[16, 16]}>
-          <Col span={12}>
+          <Col span={10}>
             <ProCard boxShadow>
               <ProForm
                 layout="horizontal"
@@ -111,7 +111,7 @@ const Reports: React.FC = () => {
                 }}
               >
                 <ProFormDateRangePicker
-                  labelCol={{ span: 7 }}
+                  labelCol={{ span: 5 }}
                   width="md"
                   name="time_period"
                   label="Select Duration"
