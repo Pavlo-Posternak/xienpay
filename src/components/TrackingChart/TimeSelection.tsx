@@ -17,6 +17,7 @@ const TimeSelection: React.FC = ({value, setValue, options}) => {
                     width: "52px",
                     textAlign: "center",
                     background: value == option.value || value == option ? "#639f52":"transparent",
+                    color: value == option.value || value == option ? "white":"black",
                     cursor: "pointer"
                 }} onClick={() => {
                     setValue && setValue(option.value ?? option);

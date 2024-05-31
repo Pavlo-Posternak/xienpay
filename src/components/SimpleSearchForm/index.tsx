@@ -27,9 +27,8 @@ const SimpleSearchForm: React.FC = ({value, setValue, onEditFinished, onClickIco
 
   const SearchWrapper = styled.div`
     background: #f4f7fe;
-    border-radius: 16px;
-    border: 1px solid #dfdfdf;
-    padding: 4px 8px;
+    border-radius: 20px;
+    padding: 8px 16px;
     display: flex;
     align-items: center
 

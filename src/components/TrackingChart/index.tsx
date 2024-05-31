@@ -3,70 +3,7 @@ import TimeSelection from './TimeSelection';
 import ChartHeader from './ChartHeader';
 import Graph from './Graph';
 
-const graphData = [
-    {
-        name:"10:00",
-        channel1: 234,
-        channel2: 61,
-    },
-    {
-        name:"10:30",
-        channel1: 45,
-        channel2: 672,
-    },
-    {
-        name:"11:00",
-        channel1: 221,
-        channel2: 752,
-    },
-    {
-        name:"11:30",
-        channel1: 32,
-        channel2: 912,
-    },
-    {
-        name:"12:00",
-        channel1: 123,
-        channel2: 189,
-    },
-    {
-        name:"12:30",
-        channel1: 340,
-        channel2: 95,
-    },
-    {
-        name:"13:00",
-        channel1: 21,
-        channel2: 732,
-    },
-    {
-        name:"13:30",
-        channel1: 450,
-        channel2: 372,
-    },
-    {
-        name:"14:00",
-        channel1: 221,
-        channel2: 561,
-    },
-    {
-        name:"14:30",
-        channel1: 320,
-        channel2: 238,
-    },
-    {
-        name:"15:00",
-        channel1: 620,
-        channel2: 157,
-    },
-    {
-        name:"15:30",
-        channel1: 195,
-        channel2: 486,
-    },
-]
-
-const TrackingChart: React.FC = () => {
+const TrackingChart: React.FC = ({graphData, duration, setDuration, options}) => {
     return (
       <div style={{
         borderRadius: "12px",
@@ -87,7 +24,7 @@ const TrackingChart: React.FC = () => {
             }}>
                 <Graph graphData={graphData}/>
             </div>
-            <TimeSelection value={"1D"} options={["12H", "1D", "7D", "15D"]}/>
+            <TimeSelection value={duration} setValue={setDuration} options={options}/>
         </div>
       </div>
     );
