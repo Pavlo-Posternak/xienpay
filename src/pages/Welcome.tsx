@@ -42,29 +42,6 @@ function asINR(n: number): string {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'INR' }).format(n);
 }
 
-const coins = [
-  {
-    icon: <img src="/assets/icons/deposit.jpg" width="52" alt=""/>,
-    title: "Deposit (345)",
-    description: "1617435737"
-  },
-  {
-    icon: <img src="/assets/icons/commission.jpg" width="52" alt=""/>,
-    title: "Deposit %",
-    description: "16174"
-  },
-  {
-    icon: <img src="/assets/icons/withdraw.jpg" width="52" alt=""/>,
-    title: "Withdrawals (52)",
-    description: "1617435737"
-  },
-  {
-    icon: <img src="/assets/icons/commission.jpg" width="52" alt=""/>,
-    title: "Withdrawals %",
-    description: "16174"
-  },
-]
-
 const option = [
   {
     title: "12H",
@@ -96,6 +73,29 @@ const Welcome = () => {
     time_period2: [Date.now() - 1000 * 60 * 60 * 24 * 7, Date.now()]
   });
 
+  const coins = [
+    {
+      icon: <img src="/assets/icons/deposit.jpg" width="52" alt=""/>,
+      title: `Deposit (${snapshot?.last15D?.deposits?.count})`,
+      description: `${snapshot?.last15D?.deposits?.amount}`
+    },
+    {
+      icon: <img src="/assets/icons/commission.jpg" width="52" alt=""/>,
+      title: "Deposit %",
+      description:  `${snapshot?.last15D?.deposits?.commission}`
+    },
+    {
+      icon: <img src="/assets/icons/withdraw.jpg" width="52" alt=""/>,
+      title: `Withdrawals (${snapshot?.last15D?.withdrawals?.count})`,
+      description: `${snapshot?.last15D?.withdrawals?.amount}`
+    },
+    {
+      icon: <img src="/assets/icons/commission.jpg" width="52" alt=""/>,
+      title: "Withdrawals %",
+      description: `${snapshot?.last15D?.withdrawals?.commission}`
+    },
+  ]
+
   useEffect(() => {
     (async () => {
       try {
@@ -106,6 +106,10 @@ const Welcome = () => {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    handleFormSubmit("snapshot");
+  }, [formValues.merchant_code])
 
   useEffect(() => {
     handleFormSubmit("submit");
@@ -168,8 +172,8 @@ const Welcome = () => {
 
         const snap = await fetchMerchantAnalyticsSnapshot(
           merchant_code,
-          Date.now() - 3600000 * 24 * 14,
-          Date.now()
+          dateFromMs(Date.now() - 3600000 * 24 * 14),
+          dateFromMs(Date.now())
         )
         console.log("---------snapshot----------", snap)
         setSnapshot(snap);
