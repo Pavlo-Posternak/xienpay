@@ -76,23 +76,23 @@ const Welcome = () => {
   const coins = [
     {
       icon: <img src="/assets/icons/deposit.jpg" width="52" alt=""/>,
-      title: `Deposit (${snapshot?.last15D?.deposits?.count})`,
-      description: `${snapshot?.last15D?.deposits?.amount}`
+      title: `Deposit (${snapshot?.lifetime?.deposits?.count ?? 0})`,
+      description: `${snapshot?.lifetime?.deposits?.amount ?? 0}`
     },
     {
       icon: <img src="/assets/icons/commission.jpg" width="52" alt=""/>,
       title: "Deposit %",
-      description:  `${snapshot?.last15D?.deposits?.commission}`
+      description:  `${snapshot?.lifetime?.deposits?.commission ?? 0}`
     },
     {
       icon: <img src="/assets/icons/withdraw.jpg" width="52" alt=""/>,
-      title: `Withdrawals (${snapshot?.last15D?.withdrawals?.count})`,
-      description: `${snapshot?.last15D?.withdrawals?.amount}`
+      title: `Withdrawals (${snapshot?.lifetime?.withdrawals?.count ?? 0})`,
+      description: `${snapshot?.lifetime?.withdrawals?.amount ?? 0}`
     },
     {
       icon: <img src="/assets/icons/commission.jpg" width="52" alt=""/>,
       title: "Withdrawals %",
-      description: `${snapshot?.last15D?.withdrawals?.commission}`
+      description: `${snapshot?.lifetime?.withdrawals?.commission ?? 0}`
     },
   ]
 
@@ -101,6 +101,7 @@ const Welcome = () => {
       try {
         const fetchedMerchants = await fetchMerchantsList('');
         setMerchantsList(fetchedMerchants);
+        handleMerchantChange(fetchedMerchants[0]?.label)
       } catch (error) {
         console.error('Error fetching merchants:', error);
       }
@@ -200,6 +201,7 @@ const Welcome = () => {
             options={merchantsList.map((merchant) => merchant.label)}
             name="merchant_code"
             label="Merchant Code"
+            value={merchantsList[0]?.label}
             required
             onChange={handleMerchantChange}
           />
@@ -211,11 +213,11 @@ const Welcome = () => {
           <Coins data = {coins}/>
         </Col>
         <Col span = {10}>
-          <BalanceStats main ={{name: "Net Balance", value: "73846804"}} sub={[
-            {name: "Deposits", value: "12345667"},
-            {name: "Withdrawls", value: "1243189"},
-            {name: "Commission", value: "8372"},
-            {name: "Outstanding", value: "835248949"},
+          <BalanceStats main ={{name: "Net Balance", value: `${snapshot?.lifetime?.balance ?? 0}`}} sub={[
+            {name: "Deposits", value: `${snapshot?.lifetime?.deposits?.amount ?? 0}`},
+            {name: "Withdrawls", value: `${snapshot?.lifetime?.withdrawals?.amount ?? 0}`},
+            {name: "Commission", value: `${snapshot?.lifetime?.deposits?.commission ?? 0 + snapshot?.lifetime?.withdrawals?.commission ?? 0}`},
+            {name: "Outstanding", value: `${snapshot?.lifetime?.settlements?.amount ?? 0}`},
           ]}/>
 
         </Col>
