@@ -5,6 +5,9 @@ import {
   downloadPayins,
   fetchMerchantAnalytics,
   fetchMerchantsList,
+  fetchMerchantAnalyticsSnapshot,
+  fetchMerchantAnalyticsPayins,
+  fetchMerchantAnalyticsPayouts
 } from '@/services/ant-design-pro/api';
 import { Column } from '@ant-design/charts';
 import { DownloadOutlined } from '@ant-design/icons';
@@ -62,77 +65,10 @@ const coins = [
   },
 ]
 
-const graphData = [
-  {
-      name:"10:00",
-      channel1: 234,
-      channel2: 61,
-  },
-  {
-      name:"10:30",
-      channel1: 45,
-      channel2: 672,
-  },
-  {
-      name:"11:00",
-      channel1: 221,
-      channel2: 752,
-  },
-  {
-      name:"11:30",
-      channel1: 32,
-      channel2: 912,
-  },
-  {
-      name:"12:00",
-      channel1: 123,
-      channel2: 189,
-  },
-  {
-      name:"12:30",
-      channel1: 340,
-      channel2: 95,
-  },
-  {
-      name:"13:00",
-      channel1: 21,
-      channel2: 732,
-  },
-  {
-      name:"13:30",
-      channel1: 450,
-      channel2: 372,
-  },
-  {
-      name:"14:00",
-      channel1: 221,
-      channel2: 561,
-  },
-  {
-      name:"14:30",
-      channel1: 320,
-      channel2: 238,
-  },
-  {
-      name:"15:00",
-      channel1: 620,
-      channel2: 157,
-  },
-  {
-      name:"15:30",
-      channel1: 195,
-      channel2: 486,
-  },
-]
-
 const option = [
   {
     title: "12H",
     value: 1000 * 60 * 60 * 12,
-  },
-  {
-    title: "1D",
-    value: 1000 * 60 * 60 * 24,
   },
   {
     title: "7D",
@@ -140,7 +76,7 @@ const option = [
   },
   {
     title: "15D",
-    value: 1000 * 60 * 60 * 24 * 15,
+    value: 1000 * 60 * 60 * 24 * 14,
   },
 ]
 
@@ -148,12 +84,16 @@ const Welcome = () => {
   /* Preload merchants list */
   const [merchantsList, setMerchantsList] = useState<API.LinkedMerchantListItem[]>([]);
   const [analytics, setAnalytics] = useState<API.AnalyticsData>();
-  const [deposit, setDeposit] = useState(1000 * 60 * 60 * 24);
-  const [depositData, setDepositData] = useState();
+  const [deposit, setDeposit] = useState(1000 * 60 * 60 * 24 * 7);
+  const [depositData, setDepositData] = useState({payins: []});
+  const [withdraw, setWithdraw] = useState(1000 * 60 * 60 * 24 * 7)
+  const [withdrawData, setWithdrawData] = useState({payouts: []});
+  const [snapshot, setSnapshot] = useState();
 
   const [formValues, setFormValues] = useState({
     merchant_code: '',
-    time_period: [Date.now() - 1000 * 60 * 60 * 24, Date.now()],
+    time_period: [Date.now() - 1000 * 60 * 60 * 24 * 7, Date.now()],
+    time_period2: [Date.now() - 1000 * 60 * 60 * 24 * 7, Date.now()]
   });
 
   useEffect(() => {
@@ -169,32 +109,70 @@ const Welcome = () => {
 
   useEffect(() => {
     handleFormSubmit("submit");
-  }, [formValues])
+  }, [formValues.merchant_code, formValues.time_period])
 
   useEffect(() => {
-    handleDateChange([Date.now() - deposit, Date.now()])
+    handleFormSubmit("submit2");
+  }, [formValues.merchant_code, formValues.time_period2])
+
+  useEffect(() => {
+    setFormValues({
+      ...formValues,
+      time_period: [Date.now() - deposit, Date.now()]
+    })
   }, [deposit]);
 
-  const handleFormSubmit = async (action) => {
-    console.log('Form values:', formValues);
-    const { merchant_code, time_period } = formValues;
-    const [from_date, to_date] = time_period;
+  useEffect(() => {
+    setFormValues({
+      ...formValues,
+      time_period2: [Date.now() - withdraw, Date.now()]
+    })
+  }, [withdraw]);
 
-    if (daysBetween(from_date, to_date) >= 15) {
-      message.error('Please select a date range within 15 days');
-      return;
-    }
+  const handleFormSubmit = async (action: string) => {
+    console.log('Form values:', formValues);
+    const { merchant_code, time_period, time_period2 } = formValues;
 
     try {
-      if (action === 'download') {
-        await downloadPayins(merchant_code, dateFromMs(from_date), dateFromMs(to_date));
-      } else if (action === 'submit') {
-        const data = await fetchMerchantAnalytics(
+      // if (action === 'download') {
+      //   await downloadPayins(merchant_code, dateFromMs(from_date), dateFromMs(to_date));
+      // } else 
+      if (action === 'submit') {
+        const [from_date, to_date] = time_period;
+        if (daysBetween(from_date, to_date) >= 15) {
+          message.error('Please select a date range within 15 days');
+          return;
+        }
+        
+        const payins = await fetchMerchantAnalyticsPayins(
           merchant_code,
           dateFromMs(from_date),
           dateFromMs(to_date),
         );
-        setAnalytics(data);
+        console.log("-----------payins-------------", payins)
+        setDepositData(payins);
+      } else if (action === 'submit2') {
+        const [from_date, to_date] = time_period2;
+        if (daysBetween(from_date, to_date) >= 15) {
+          message.error('Please select a date range within 15 days');
+          return;
+        }
+        const payouts = await fetchMerchantAnalyticsPayouts(
+          merchant_code,
+          dateFromMs(from_date),
+          dateFromMs(to_date),
+        );
+        console.log("-----------payouts-------------", payouts)
+        setWithdrawData(payouts);
+      } else if (action === 'snapshot') {
+
+        const snap = await fetchMerchantAnalyticsSnapshot(
+          merchant_code,
+          Date.now() - 3600000 * 24 * 14,
+          Date.now()
+        )
+        console.log("---------snapshot----------", snap)
+        setSnapshot(snap);
       }
     } catch (error) {
       message.error(`Failed to ${action}`);
@@ -207,39 +185,6 @@ const Welcome = () => {
       merchant_code: value,
     }));
   };
-
-  const handleDateChange = (value) => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      time_period: value,
-    }));
-  };
-
-  const { balance, lastHour, lastDay, lastWeek } = analytics || {
-    lastHour: { deposit_count: '--' },
-    lastDay: { deposit_count: '--', histogram: [] },
-    lastWeek: { deposit_count: '--', histogram: [] },
-  };
-
-  const hourlyDataConfig = {
-    data: lastDay.histogram.map((value) => ({
-      hour_ist: value.hour_ist.split(' ')[1].split(':')[0] + ':00',
-      amount: value.amount,
-    })),
-    xField: 'hour_ist',
-    yField: 'amount',
-    colorField: 'hour_ist',
-  };
-
-  const dailyDataConfig = {
-    data: lastWeek.histogram,
-    xField: 'day_ist',
-    yField: 'amount',
-    colorField: 'day_ist',
-  };
-
-  const lh_dc = `${lastHour.deposit_count} #`;
-  const ld_dc = `${lastDay.deposit_count} #`;
 
   return (
     <PageContainer>
@@ -277,143 +222,22 @@ const Welcome = () => {
           flexDirection: "column",
           gap: "20px"
         }}>
-          <TrackingChart graphData={deposit < 1000 * 3600 * 25 ? lastDay.histogram.map(item => {
-            return {
-              name: item.hour_ist,
-              channel1: item.amount,
-              channel2: 0
-            }
-          }) : lastWeek.histogram.map(item => {
+          <TrackingChart graphData={depositData.payins.map(item => {
             return {
               name: item.day_ist,
               channel1: item.amount,
               channel2: 0
             }
-          })} lastHour={lastHour} lastDay={lastDay} duration={deposit} setDuration={setDeposit} options={option} />
-          {/* <TrackingChart /> */}
+          })} title={`DEPOSIT`} amount={depositData.amount} count={depositData.count} duration={deposit} setDuration={setDeposit} options={option} />
+          
+          <TrackingChart graphData={withdrawData.payouts.map(item => {
+            return {
+              name: item.day_ist,
+              channel1: item.amount,
+              channel2: 0
+            }
+          })} title={`WITHDRAW`} amount={withdrawData.amount} count={withdrawData.count} duration={withdraw} setDuration={setWithdraw} options={option} />
         </div>
-      {/* <Row gutter={[16, 16]}>
-        // Left Half
-        <Col span={12}>
-          <StatisticCard.Group direction="row" boxShadow>
-            <StatisticCard
-              statistic={{
-                title: 'This Hour Deposits',
-                value: `${asINR(lastHour.deposit_amount)}`,
-                description: <Statistic title="Count" value={lh_dc} />,
-              }}
-              chart={
-                <img
-                  src="https://gw.alipayobjects.com/zos/alicdn/ShNDpDTik/huan.svg"
-                  alt="百分比"
-                  width="100%"
-                />
-              }
-              chartPlacement="left"
-            />
-            <Divider type="vertical" />
-            <StatisticCard
-              statistic={{
-                title: "Today's Deposits",
-                value: `${asINR(lastDay.deposit_amount)}`,
-                description: <Statistic title="Count" value={ld_dc} />,
-              }}
-              chart={
-                <img
-                  src="https://gw.alipayobjects.com/zos/alicdn/6YR18tCxJ/huanlv.svg"
-                  alt="百分比"
-                  width="100%"
-                />
-              }
-              chartPlacement="left"
-            />
-            <Divider type="vertical" />
-            <StatisticCard
-              statistic={{
-                title: 'Balance',
-                value: `${asINR(balance)}`,
-              }}
-              chartPlacement="left"
-            />
-          </StatisticCard.Group>
-          <Divider type="horizontal" />
-          <StatisticCard
-            boxShadow
-            statistic={{
-              title: "Today's Deposits",
-              value: `${asINR(lastDay.deposit_amount)}`,
-            }}
-            chart={<Column height={400} {...hourlyDataConfig} />}
-          />
-        </Col>
-
-        // Right Half
-        <Col span={12}>
-          <ProCard boxShadow>
-            <ProForm
-              layout="horizontal"
-              initialValues={formValues}
-              onValuesChange={(_, values) => handleDateChange(values.time_period)}
-              submitter={{
-                render: (props, x) => (
-                  <Row gutter={8} align="middle">
-                    <Col>
-                      <Button
-                        key="submit"
-                        type="primary"
-                        onClick={async () => {
-                          const values = await props.form?.validateFields();
-                          console.log(values, x);
-                          handleFormSubmit('submit');
-                        }}
-                      >
-                        Submit
-                      </Button>
-                    </Col>
-                    <Col>
-                      <Button
-                        key="download"
-                        icon={<DownloadOutlined />}
-                        style={{ backgroundColor: '#fa8c16', borderColor: '#fa8c16' }}
-                        onClick={async () => {
-                          const values = await props.form?.validateFields();
-                          console.log(values);
-                          handleFormSubmit('download');
-                        }}
-                      >
-                        Download
-                      </Button>
-                    </Col>
-                  </Row>
-                ),
-                searchConfig: {
-                  submitText: 'Search',
-                },
-              }}
-            >
-              <ProFormDateRangePicker
-                labelCol={{ span: 4 }}
-                width="sm"
-                name="time_period"
-                label="Select Duration"
-                fieldProps={{
-                  format: (value) => value.format('YYYY-MM-DD'),
-                }}
-                required
-              />
-            </ProForm>
-          </ProCard>
-          <Divider type="horizontal" />
-          <StatisticCard
-            boxShadow
-            statistic={{
-              title: "Duration's Deposits",
-              value: `${asINR(lastWeek.deposit_amount)}`,
-            }}
-            chart={<Column height={400} {...dailyDataConfig} />}
-          />
-        </Col>
-      </Row> */}
     </PageContainer>
   );
 };

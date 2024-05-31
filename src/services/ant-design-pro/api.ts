@@ -204,7 +204,53 @@ export async function fetchMerchantAnalytics(
     },
   }).then((response) => response.data);
 }
+// Added code-------------------------------------------------------------------------
+export async function fetchMerchantAnalyticsSnapshot(
+  merchant_code: string,
+  from_date: string,
+  to_date: string,
+): Promise<API.AnalyticsData> {
+  return request('/api/merchants/analytics/snapshot', {
+    method: 'POST',
+    data: {
+      merchant_code,
+      from_date,
+      to_date,
+    },
+  }).then((response) => response.data);
+}
 
+export async function fetchMerchantAnalyticsPayins(
+  merchant_code: string,
+  from_date: string,
+  to_date: string,
+): Promise<API.AnalyticsData> {
+  return request('/api/merchants/analytics/payins', {
+    method: 'POST',
+    data: {
+      merchant_code,
+      from_date,
+      to_date,
+    },
+  }).then((response) => response.data);
+}
+
+export async function fetchMerchantAnalyticsPayouts(
+  merchant_code: string,
+  from_date: string,
+  to_date: string,
+): Promise<API.AnalyticsData> {
+  return request('/api/merchants/analytics/payouts', {
+    method: 'POST',
+    data: {
+      merchant_code,
+      from_date,
+      to_date,
+    },
+  }).then((response) => response.data);
+}
+
+// Finished --------------------------------------------------------------------------
 export async function downloadPayins(merchant_code: string, from_date: string, to_date: string) {
   return request('/api/merchants/payins/download', {
     method: 'POST',

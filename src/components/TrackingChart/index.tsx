@@ -3,7 +3,7 @@ import TimeSelection from './TimeSelection';
 import ChartHeader from './ChartHeader';
 import Graph from './Graph';
 
-const TrackingChart: React.FC = ({graphData, lastHour, lastDay, duration, setDuration, options}) => {
+const TrackingChart: React.FC = ({graphData, title, amount, count, duration, setDuration, options}) => {
     return (
       <div style={{
         borderRadius: "12px",
@@ -11,7 +11,7 @@ const TrackingChart: React.FC = ({graphData, lastHour, lastDay, duration, setDur
         boxShadow: "3px 3px 5px #1111",
         padding: "20px"
       }}>
-        <ChartHeader lastHour={lastHour} lastDay={lastDay}/>
+        <ChartHeader title={title} amount={amount} count={count}/>
         <div style={{
             display: "flex",
             justifyContent: "space-between",
