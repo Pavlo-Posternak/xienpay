@@ -87,6 +87,13 @@ export default [
         component: './PayinList/Dropped',
         access: 'canPayinList',
       },
+      {
+        name: 'Reports',
+        key:'reports',
+        path: '/payin-list/reports',
+        component: './PayinList/Reports',
+        access: 'canPayinList',
+      },
     ],
   },
   {
@@ -107,7 +114,14 @@ export default [
         path: '/payout-list/completed',
         component: './PayoutList/Completed',
         access: 'canPayoutList',
-      }
+      },
+      {
+        name: 'Reports',
+        key:'reports',
+        path: '/payout-list/reports',
+        component: './PayoutList/Reports',
+        access: 'canPayoutList',
+      },
     ],
   },
   {
@@ -172,11 +186,5 @@ export default [
         access: 'canAgentList',
       },
     ]
-  },
-  {
-    path: '/reports',
-    name: 'Reports',
-    icon: 'WarningOutlined',
-    component: './Reports',
   },
 ];
